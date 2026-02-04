@@ -7,7 +7,14 @@ function Header() {
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/">ProShop</Navbar.Brand>
+          <Navbar.Brand href="/">
+            {/* <img
+              src="https://t4.ftcdn.net/jpg/03/37/25/51/360_F_337255148_9tccNfphQtFZVLewTLZvqJikiUtuyeix.jpg"
+              alt="proShop"
+              style={{ height: "25px", width: "25px" , gap:"5px"}}
+            /> */}
+            ProShop
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
