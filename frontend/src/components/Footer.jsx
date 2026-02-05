@@ -9,7 +9,7 @@ function Footer() {
         <Row>
           <Col className="text-center py-3 ">
             <p>ProShop &copy; {currentYr}</p>
-            <h4>created by - vaibhav borkar</h4>
+            <h6>created by - vaibhav borkar</h6>
           </Col>
         </Row>
       </Container>

@@ -1,7 +1,7 @@
 const productsList = [
   {
     _id: "1",
-    name: "AirPods Pro Wireless Headphones",
+    name: "AirPods Pro Wireless Headphones ",
     image:
       "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MWP22?wid=400&hei=400",
     description:
@@ -10,7 +10,7 @@ const productsList = [
     category: "Electronics",
     price: 249.99,
     countInStock: 15,
-    rating: 4.8,
+    rating: 1.8,
     numReviews: 120,
   },
   {
@@ -30,14 +30,15 @@ const productsList = [
   {
     _id: "3",
     name: "Sony WH-1000XM5 Headphones",
-    image: "https://img.tatacliq.com/images/i10/437Wx649H/MP000000017346208_437Wx649H_202304251122161.jpeg",
+    image:
+      "https://img.tatacliq.com/images/i10/437Wx649H/MP000000017346208_437Wx649H_202304251122161.jpeg",
     description:
       "Industry-leading noise cancellation with exceptional sound quality and all-day comfort.",
     brand: "Sony",
     category: "Electronics",
     price: 399.99,
     countInStock: 20,
-    rating: 4.6,
+    rating: 3.5,
     numReviews: 65,
   },
   {
@@ -64,7 +65,7 @@ const productsList = [
     brand: "Nike",
     category: "Footwear",
     price: 129.99,
-    countInStock: 25,
+    countInStock: 0,
     rating: 4.4,
     numReviews: 52,
   },
@@ -79,7 +80,7 @@ const productsList = [
     category: "Computers",
     price: 1199.99,
     countInStock: 5,
-    rating: 4.6,
+    rating: 3.5,
     numReviews: 33,
   },
 ];
