@@ -3,8 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 import products from "./DummyData/product.js";
-const app = express();
+import connectDB from "./config/db.js";
 
+const app = express();
+connectDB();
 app.use(cors());
 
 app.use(
@@ -23,7 +25,7 @@ app.get("/api/products", (req, res) => {
 
 app.get("/api/products/:id", (req, res) => {
   const product = products.find((item) => item._id === req.params.id);
-  res.send(product)
+  res.send(product);
 });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
