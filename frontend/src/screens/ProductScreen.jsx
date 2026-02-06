@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import productsList from "../product";
 import {
   Button,
   Card,
@@ -11,10 +10,23 @@ import {
   Row,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
+import axios from "axios";
 
 function ProductScreen() {
+  const [product, setProduct] = useState({});
   const { id: productId } = useParams();
-  const product = productsList.find((item) => item._id === productId);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/products/${productId}`,
+      );
+
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   return (
     <>
@@ -23,7 +35,7 @@ function ProductScreen() {
       </Link>
       <Row>
         <Col md={5}>
-          <Image src={product?.image} alt={product.name} fluid />
+          <Image src={product.image} alt={product.name} fluid />
         </Col>
         <Col md={4}>
           <ListGroup variant="flush">
@@ -45,17 +57,18 @@ function ProductScreen() {
         </Col>
         <Col md={3}>
           <Card>
-            <ListGroup>
+            <ListGroup variant="flush">
               <ListGroupItem>
                 <Row>
+                  <Col>Price</Col>
                   <Col>
-                    <strong>Price: {product.price}</strong>
+                    <strong>{product.price}</strong>
                   </Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
                 <Row>
-                  <Col>Status:</Col>
+                  <Col>Status</Col>
                   <Col>
                     <strong>
                       {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
