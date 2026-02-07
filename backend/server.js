@@ -4,8 +4,8 @@ import cors from "cors";
 dotenv.config();
 import products from "./DummyData/product.js";
 import connectDB from "./config/db.js";
-
 const app = express();
+
 connectDB();
 app.use(cors());
 
