@@ -2,11 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
-import products from "./DummyData/product.js";
 import connectDB from "./config/db.js";
+import productRoutes from "../backend/routes/productRoutes.js";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 const app = express();
 
-connectDB();
+await connectDB();
 app.use(cors());
 
 app.use(
@@ -15,18 +16,14 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
-  res.send("api running ...");
-});
+// app.get("/", (req, res) => {
+//   res.send("api running ...");
+// });
 
-app.get("/api/products", (req, res) => {
-  res.send(products);
-});
+app.use("/api/products", productRoutes);
 
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((item) => item._id === req.params.id);
-  res.send(product);
-});
+app.use(notFound);
+app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`server running on server localhost:${PORT}`);

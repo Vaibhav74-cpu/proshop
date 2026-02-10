@@ -1,5 +1,6 @@
 const productsList = [
   {
+    
     name: "AirPods Pro Wireless Headphones ",
     image:
       "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MWP22?wid=400&hei=400",
