@@ -5,9 +5,10 @@ import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import MainLayout from "./components/MainLayout";
-import Cart from "./components/Cart";
+// import Cart from "./components/Cart";
 import Login from "./components/Login";
 import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
 
 const appRouter = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const appRouter = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <HomeScreen /> },
-      { path: "cart", element: <Cart /> },
+      { path: "cart", element: <CartScreen /> },
       { path: "login", element: <Login /> },
       { path: "product/:id", element: <ProductScreen /> },
     ],
