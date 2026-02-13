@@ -17,8 +17,6 @@ export const authUser = asyncHandler(async (req, res) => {
       expiresIn: "12d",
     });
 
-   
-    
     //send cookie to the browser with the token (token is inside cookie)
     res.cookie("jwt", token, {
       httpOnly: true, //js canot access cookie
@@ -50,7 +48,13 @@ export const registerUser = asyncHandler(async (req, res) => {
 //      @routes  POST /api/users/logout
 //      @access  /private
 export const logoutUser = asyncHandler(async (req, res) => {
-  res.send("logout user");
+  //logout -> clear token inside cookied
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json("Logged Out Succesfully");
 });
 
 //      @desc   show user profile on ui
