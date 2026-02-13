@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../model/userSchema.js";
-import jwt from "jsonwebtoken";
+import generateToken from "../utils/generateToken.js";
+// import jwt from "jsonwebtoken";
 // import cookie from "cookie-parser";
 
 //      @desc    get token and get auth user
@@ -12,18 +13,7 @@ export const authUser = asyncHandler(async (req, res) => {
 
   // const isPasswordMatch = await user.matchPassword(password); //optiona
   if (user && (await user.matchPassword(password))) {
-    //create token contain userId and then put it in http-only cookie
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "12d",
-    });
-
-    //send cookie to the browser with the token (token is inside cookie)
-    res.cookie("jwt", token, {
-      httpOnly: true, //js canot access cookie
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    generateToken(res, user._id);
 
     res.json({
       _id: user._id,
@@ -41,7 +31,34 @@ export const authUser = asyncHandler(async (req, res) => {
 //      @routes  POST /api/users/register
 //      @access  /public
 export const registerUser = asyncHandler(async (req, res) => {
-  res.send("register user");
+  const { name, email, password } = req.body;
+  const userExist = await User.findOne({ email });
+
+  if (userExist) {
+    res.status(401);
+    throw new Error("User is already exist");
+  }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+
+  if (user) {
+    generateToken(res, user._id); // used res to store token on the browser
+
+    res.status(200).json({
+      //send res back to the frontend
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 //      @desc    logout the user & destroy token/cookie
