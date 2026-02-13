@@ -1,0 +1,38 @@
+import express from "express";
+import {
+  authUser,
+  deleteUser,
+  getUserById,
+  getUserProfile,
+  getUsers,
+  logoutUser,
+  registerUser,
+  updateUser,
+  updateUserProfile,
+} from "../controllers/userController.js";
+import { admin, protect } from "../middleware/authMiddleware.js";
+
+const router = express.Router();
+
+//---> /api/users
+
+//public -> no authentication required
+router.post("/register", registerUser);
+router.post("/login", authUser);
+
+//private routes -> user must be logged in
+router.post("/logout", protect, logoutUser);
+router
+  .route("/profile")
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
+
+//admin routes-> must be private
+router.route("/").get(protect, admin, getUsers);
+router
+  .route("/:id")
+  .get(protect, admin, getUserById)
+  .put(protect, admin, updateUser)
+  .delete(protect, admin, deleteUser);
+
+export default router;
