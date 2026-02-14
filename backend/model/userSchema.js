@@ -32,8 +32,10 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
+    //(!true) -> false -> skip the block
+    //if password change skip if block  and move to the hash--> '' -> "123"
     // password is modified from nothing to '12345678'
-    next(); 
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
