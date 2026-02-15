@@ -6,9 +6,10 @@ import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import MainLayout from "./components/MainLayout";
 // import Cart from "./components/Cart";
-import Login from "./components/Login";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,8 +18,9 @@ const appRouter = createBrowserRouter([
     children: [
       { index: true, element: <HomeScreen /> },
       { path: "cart", element: <CartScreen /> },
-      { path: "login", element: <Login /> },
       { path: "product/:id", element: <ProductScreen /> },
+      { path: "login", element: <LoginScreen /> },
+      { path: "register", element: <RegisterScreen /> },
     ],
   },
 ]);
