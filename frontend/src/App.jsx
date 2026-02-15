@@ -10,6 +10,8 @@ import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ShippingScreen from "./screens/ShippingScreen";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,10 +19,16 @@ const appRouter = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <HomeScreen /> },
-      { path: "cart", element: <CartScreen /> },
       { path: "product/:id", element: <ProductScreen /> },
       { path: "login", element: <LoginScreen /> },
       { path: "register", element: <RegisterScreen /> },
+      {
+        element: <PrivateRoutes />,
+        children: [
+          { path: "shipping", element: <ShippingScreen /> },
+          { path: "cart", element: <CartScreen /> },
+        ],
+      },
     ],
   },
 ]);
