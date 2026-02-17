@@ -4,6 +4,7 @@ import { Form, useNavigate } from "react-router-dom";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingAddress } from "../redux/slices/cartSlice";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 function ShippingScreen() {
   const cart = useSelector((state) => state.cart);
@@ -12,8 +13,10 @@ function ShippingScreen() {
   const navigate = useNavigate();
   const [address, setAddress] = useState(shippingAddress?.address || "");
   const [city, setCity] = useState(shippingAddress?.city || "");
-  const [postalCode, setPostalCode] = useState("");
-  const [country, setCountry] = useState("");
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || "",
+  );
+  const [country, setCountry] = useState(shippingAddress?.country || "");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -22,12 +25,14 @@ function ShippingScreen() {
   };
   return (
     <FormContainer className="">
+      {<CheckoutSteps step1 step2 />}
       <h1 className="my-5 fw-bold">Shipping</h1>
       <Form onSubmit={submitHandler} className="w-75 fw-medium ">
         <FormGroup className="my-3" controlId="address">
           <FormLabel>Enter Address</FormLabel>
           <FormControl
             type="text"
+            required
             placeholder="Enter your address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
@@ -37,6 +42,7 @@ function ShippingScreen() {
           <FormLabel>Enter city</FormLabel>
           <FormControl
             type="text"
+            required
             placeholder="Enter your city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -46,6 +52,7 @@ function ShippingScreen() {
           <FormLabel> Enter Postal Code</FormLabel>
           <FormControl
             type="text"
+            required
             placeholder="Enter your Postal Code"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
@@ -55,6 +62,7 @@ function ShippingScreen() {
           <FormLabel> Enter your country</FormLabel>
           <FormControl
             type="text"
+            required
             placeholder="Enter your country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
