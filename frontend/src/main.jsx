@@ -6,11 +6,14 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import "react-toastify/dist/ReactToastify.css";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <PayPalScriptProvider deferLoading={true}>
+        <App />
+      </PayPalScriptProvider>
     </Provider>
   </StrictMode>,
 );

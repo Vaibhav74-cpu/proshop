@@ -45,6 +45,8 @@ function PlaceOrderScreen() {
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
       }).unwrap();
+      // console.log(res);
+
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (error) {
@@ -133,7 +135,7 @@ function PlaceOrderScreen() {
               <ListGroupItem>
                 <Row>
                   <Col>Total :</Col>
-                  <Col>{cart.totalPrice}</Col>
+                  <Col>{cart.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
