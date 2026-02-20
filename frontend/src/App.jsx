@@ -16,6 +16,8 @@ import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import AdminRoutes from "./components/AdminRoutes";
+import OrderListScreen from "./screens/OrderListScreen";
 
 const appRouter = createBrowserRouter([
   {
@@ -34,8 +36,12 @@ const appRouter = createBrowserRouter([
           { path: "cart", element: <CartScreen /> },
           { path: "placeorder", element: <PlaceOrderScreen /> },
           { path: "order/:id", element: <OrderScreen /> },
-          {path:"/profile", element:<ProfileScreen/>}
+          { path: "/profile", element: <ProfileScreen /> },
         ],
+      },
+      {
+        element: <AdminRoutes />,
+        children: [{ path: "admin/orderslist", element: <OrderListScreen /> }],
       },
     ],
   },

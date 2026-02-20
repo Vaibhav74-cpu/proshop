@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
@@ -35,6 +36,9 @@ function OrderScreen() {
     refetch,
   } = useGetOrderDetailsQuery(orderId);
 
+  const [orderDeliver, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation(orderId);
+
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const {
     data: paypal,
@@ -69,7 +73,8 @@ function OrderScreen() {
     }
   }, [errorPayPal, loadingPaypal, order, paypal, paypalDispatch]);
 
-  function onApprove(data, actions) { //on payment successful
+  function onApprove(data, actions) {
+    //on payment successful
     return actions.order.capture().then(async function (details) {
       try {
         await payOrder({ orderId, details }).unwrap();
@@ -89,7 +94,8 @@ function OrderScreen() {
     toast.error(err.message);
   }
 
-  function createOrder(data, actions) {//create order with correct amount in paypal
+  function createOrder(data, actions) {
+    //create order with correct amount in paypal
     return actions.order
       .create({
         purchase_units: [
@@ -104,6 +110,16 @@ function OrderScreen() {
         return orderId;
       });
   }
+
+  const markDeliveredHandler = async () => {
+    try {
+      await orderDeliver(orderId);
+      refetch();
+      toast.success("Order is Delivered");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <h2>OrderId {order?._id}</h2>
@@ -230,6 +246,21 @@ function OrderScreen() {
                     )}
                   </ListGroupItem>
                 )}
+                {loadingDeliver && <Loader variant="danger">{error}</Loader>}
+                {userInfo &&
+                  userInfo.isAdmin &&
+                  order.isPaid &&
+                  !order.isDelivered && (
+                    <ListGroupItem>
+                      <Button
+                        type="button"
+                        className="btn-block bg-dark"
+                        onClick={markDeliveredHandler}
+                      >
+                        Mark ad delivered
+                      </Button>
+                    </ListGroupItem>
+                  )}
               </ListGroup>
             </Card>
           </Col>

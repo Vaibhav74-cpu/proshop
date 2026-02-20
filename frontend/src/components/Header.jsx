@@ -56,22 +56,55 @@ function Header() {
                 </Nav.Link>
               </LinkContainer>
 
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+              {
+                // userInfo && userInfo.isAdmin ? (
+                //   <NavDropdown title={userInfo.name} id="adminmenu">
+                //     <LinkContainer to="admin/orderslist">
+                //       <NavDropdown.Item>Products List </NavDropdown.Item>
+                //     </LinkContainer>
+                //     <LinkContainer to="admin/orderslist">
+                //       <NavDropdown.Item>Users List </NavDropdown.Item>
+                //     </LinkContainer>
+                //     <LinkContainer to="admin/orderslist">
+                //       <NavDropdown.Item>Orders List </NavDropdown.Item>
+                //     </LinkContainer>
+                //     <NavDropdown.Item onClick={logoutHandler}>
+                //       Logout
+                //     </NavDropdown.Item>
+                //   </NavDropdown>
+                // ) :
+
+                userInfo ? (
+                  <NavDropdown title={userInfo.name} id="username">
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                ) : (
+                  <LinkContainer to="/login">
+                    <Nav.Link>
+                      <FaUser />
+                      Sign In
+                    </Nav.Link>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
+                )
+              }
+
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title={userInfo.name} id="adminmenu">
+                  <LinkContainer to="admin/orderslist">
+                    <NavDropdown.Item>Products List </NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="admin/orderslist">
+                    <NavDropdown.Item>Users List </NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="admin/orderslist">
+                    <NavDropdown.Item>Orders List </NavDropdown.Item>
+                  </LinkContainer>
                 </NavDropdown>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <FaUser />
-                    Sign In
-                  </Nav.Link>
-                </LinkContainer>
               )}
             </Nav>
           </Navbar.Collapse>
