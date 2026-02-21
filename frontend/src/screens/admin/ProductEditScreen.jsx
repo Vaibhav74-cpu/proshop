@@ -1,11 +1,18 @@
 import React from "react";
-import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  FormLabel,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import FormContainer from "../../components/FormContainer";
 import { useState } from "react";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadImageProductMutation,
 } from "../../redux/slices/productApiSlice";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,14 +31,16 @@ function ProductEditScreen() {
   } = useGetProductDetailsQuery(productId);
   const [updateProduct, { isLoading: loadingUpdate, error: errorProduct }] =
     useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadImageProductMutation();
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState("");
-    const [description, setDescription] = useState("");
-    const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     if (product) {
@@ -57,7 +66,7 @@ function ProductEditScreen() {
       image,
       description,
     };
-    const res = await updateProduct(updatedProduct);
+    const res = await updateProduct(updatedProduct).unwrap();
     refetch();
     // console.log(res);
     if (res.error) {
@@ -65,6 +74,21 @@ function ProductEditScreen() {
     } else {
       toast.success("Product Updated");
       navigate("/admin/productList");
+    }
+  };
+
+  const uploadImageHandler = async (e) => {
+    const formData = new FormData();
+    console.log(e.target.files[0]);
+
+    formData.append("image", e.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      // toast.success(res.message);
+      toast.success("Image uploaded successfully!");
+      setImage(res.image);
+    } catch (error) {
+      toast.error(error?.message);
     }
   };
   return (
@@ -85,7 +109,7 @@ function ProductEditScreen() {
               <FormGroup controlId="name" className="my-3 ">
                 <Form.Label>Name</Form.Label>
                 <FormControl
-                  type={name}
+                  type="text"
                   placeholder="Enter Product Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -100,6 +124,21 @@ function ProductEditScreen() {
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </FormGroup>
+              {/* Image upload */}
+              <FormGroup controlId="image" className="my-2">
+                <FormLabel>Image</FormLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter Product Image Url"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+                <FormControl
+                  type="file"
+                  onChange={uploadImageHandler}
+                  label="choose file"
+                />
+              </FormGroup>
               <FormGroup controlId="brand" className="my-3">
                 <Form.Label>Brand</Form.Label>{" "}
                 <FormControl
@@ -112,7 +151,7 @@ function ProductEditScreen() {
               <FormGroup controlId="countinstock" className="my-3">
                 <Form.Label>Count In Stock</Form.Label>{" "}
                 <FormControl
-                  type="text"
+                  type="number"
                   placeholder="Enter Count In Stock"
                   value={countInStock}
                   onChange={(e) => setCountInStock(e.target.value)}
@@ -125,6 +164,15 @@ function ProductEditScreen() {
                   placeholder="Enter Category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup controlId="description" className="my-3">
+                <Form.Label>Description</Form.Label>{" "}
+                <FormControl
+                  type="text"
+                  placeholder="Enter Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </FormGroup>
               <Button type="submit" className="btn-block mt-2 bg-dark">
