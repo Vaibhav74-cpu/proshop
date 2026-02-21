@@ -17,7 +17,9 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import AdminRoutes from "./components/AdminRoutes";
-import OrderListScreen from "./screens/OrderListScreen";
+import OrderListScreen from "./screens/admin/OrderListScreen";
+import ProductList from "./screens/admin/ProductList";
+import ProductEditScreen from "./screens/admin/ProductEditScreen";
 
 const appRouter = createBrowserRouter([
   {
@@ -41,7 +43,14 @@ const appRouter = createBrowserRouter([
       },
       {
         element: <AdminRoutes />,
-        children: [{ path: "admin/orderslist", element: <OrderListScreen /> }],
+        children: [
+          { path: "admin/orderslist", element: <OrderListScreen /> },
+          { path: "admin/productlist", element: <ProductList /> },
+          {
+            path: "admin/product/:id/edit",
+            element: <ProductEditScreen />,
+          },
+        ],
       },
     ],
   },

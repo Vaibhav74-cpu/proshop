@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
-import { useGetOrdersQuery } from "../redux/slices/orderApiSlice";
+import { useGetOrdersQuery } from "../../redux/slices/orderApiSlice";
 import { FaTimes } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 
