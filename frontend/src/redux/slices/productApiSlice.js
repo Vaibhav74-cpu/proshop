@@ -4,8 +4,12 @@ import { apiSlice } from "./apiSlice";
 export const productApislice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
+      query: ({ pageNumber, keyword }) => ({
         url: PRODUCTS_URL,
+        params: {
+          pageNumber,
+          keyword,
+        },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Products"],
@@ -44,6 +48,19 @@ export const productApislice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    createProductReview: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/${data.productId}/reviews`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    getTopProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/top`,
+      }),
+    }),
   }),
 });
 export const {
@@ -53,6 +70,8 @@ export const {
   useUpdateProductMutation,
   useUploadImageProductMutation,
   useDeleteProductMutation,
+  useCreateProductReviewMutation,
+  useGetTopProductsQuery,
 } = productApislice;
 
 // keepUnusedDataFor-> keep data for 5 seconds after page leave

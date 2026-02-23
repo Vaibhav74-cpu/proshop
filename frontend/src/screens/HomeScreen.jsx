@@ -3,21 +3,39 @@ import Product from "../components/Product";
 import { useGetProductsQuery } from "../redux/slices/productApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { Link, useParams } from "react-router-dom";
+import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 function HomeScreen() {
-  const { data: productsList, isLoading, error } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+  const { data, isLoading, error } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
 
   return (
     <>
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link className="btn btn-light my-3" to="/">
+          Go Back
+        </Link>
+      )}
       {isLoading ? (
-        <Loader/>
+        <Loader />
       ) : error ? (
-        <Message variant="danger">{error?.data?.message || error?.error}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <>
-          <h1 className="fs-3">Latest Products </h1>
+          <Meta title="Welcome To Online Shop" />
+          <h1 className="fs-3 fw-bold mt-3">Latest Products </h1>
           <Row>
-            {productsList.map((product) => (
+            {data.products.map((product) => (
               <Col
                 key={product._id}
                 sm={12}
@@ -30,6 +48,13 @@ function HomeScreen() {
               </Col>
             ))}
           </Row>
+          {data.pages > 1 && (
+            <Paginate
+              page={data.page}
+              pages={data.pages}
+              keyword={keyword ? keyword : ""}
+            />
+          )}
         </>
       )}
     </>

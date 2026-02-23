@@ -29,6 +29,9 @@ const appRouter = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <HomeScreen /> },
+      { path: "page/:pageNumber", element: <HomeScreen /> },
+      { path: "search/:keyword", element: <HomeScreen /> },
+      { path: "search/:keyword/page/:pageNumber", element: <HomeScreen /> },
       { path: "product/:id", element: <ProductScreen /> },
       { path: "login", element: <LoginScreen /> },
       { path: "register", element: <RegisterScreen /> },

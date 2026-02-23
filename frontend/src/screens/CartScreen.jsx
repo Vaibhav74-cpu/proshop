@@ -53,7 +53,7 @@ function CartScreen() {
                     <Link to={`/product/${item?._id}`}>{item?.name}</Link>
                   </Col>
                   <Col md={2} style={{ marginTop: "15px" }}>
-                    {item?.price}
+                    ₹{item?.price}
                   </Col>
                   <Col md={2}>
                     <FormControl

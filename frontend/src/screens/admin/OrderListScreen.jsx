@@ -1,11 +1,15 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
-import { useGetOrdersQuery } from "../../redux/slices/orderApiSlice";
+import {
+  orderApiSlice,
+  useGetOrdersQuery,
+} from "../../redux/slices/orderApiSlice";
 import { FaTimes } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 
 function OrderListScreen() {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
+  console.log(orders);
 
   return (
     <>
@@ -27,7 +31,7 @@ function OrderListScreen() {
             orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.user.name}</td>
+                <td>{order.user?.name}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>{order.totalPrice}</td>
                 <td>

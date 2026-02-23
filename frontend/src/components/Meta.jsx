@@ -1,0 +1,19 @@
+import React from "react";
+import { Helmet } from "react-helmet-async";
+
+function Meta({ title, description, keywords }) {
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+    </Helmet>
+  );
+}
+
+Meta.defaultProps = {
+  title: "welcome to E-commerce",
+  description: "We sell the products",
+  keywords: "Clothesm, Electronics",
+};
+export default Meta;

@@ -55,7 +55,7 @@ function OrderScreen() {
           type: "resetOptions",
           value: {
             "client-id": paypal?.clientId,
-            currency: "USD",
+            currency: "INR",
             components: "buttons", // Load only buttons component
             "enable-funding": "paylater,card",
           },
@@ -178,8 +178,8 @@ function OrderScreen() {
                         <Link to={`/product/${item._id}`}>{item.name}</Link>
                       </Col>
                       <Col>
-                        {item.qty} * {item.price} ={" "}
-                        {`${(item.qty * item.price).toFixed(2)}`}
+                        {item.qty} * ₹{item.price} ={" "}
+                        {`₹${(item.qty * item.price).toFixed(2)}`}
                       </Col>
                     </Row>
                   </ListGroupItem>
@@ -196,19 +196,19 @@ function OrderScreen() {
                 <ListGroupItem>
                   <Row>
                     <Col>Items </Col>
-                    <Col>{order?.itemsPrice}</Col>
+                    <Col>₹{order?.itemsPrice}</Col>
                   </Row>
                   <Row>
                     <Col>Shipping</Col>
-                    <Col>{order?.shippingPrice}</Col>
+                    <Col>₹{order?.shippingPrice}</Col>
                   </Row>
                   <Row>
                     <Col>Tax</Col>
-                    <Col>{order?.taxPrice}</Col>
+                    <Col>₹{order?.taxPrice}</Col>
                   </Row>
                   <Row>
                     <Col>Total</Col>
-                    <Col>{order?.totalPrice}</Col>
+                    <Col>₹{order?.totalPrice}</Col>
                   </Row>
                 </ListGroupItem>
                 {/* mark as paid */}

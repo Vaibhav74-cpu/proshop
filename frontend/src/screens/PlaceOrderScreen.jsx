@@ -97,8 +97,8 @@ function PlaceOrderScreen() {
                           <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} * {item.price} ={" "}
-                          {`${(item.qty * item.price).toFixed(2)}`}
+                          {item.qty} * ₹{item.price} ={" "}
+                          {`₹${(item.qty * item.price).toFixed(2)}`}
                         </Col>
                       </Row>
                     </ListGroupItem>
@@ -117,25 +117,25 @@ function PlaceOrderScreen() {
               <ListGroupItem>
                 <Row>
                   <Col>Items : </Col>
-                  <Col>{cart.itemsPrice}</Col>
+                  <Col>₹{cart.itemsPrice}</Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
                 <Row>
                   <Col>Shipping : </Col>
-                  <Col>{cart.shippingPrice}</Col>
+                  <Col>₹{cart.shippingPrice}</Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
                 <Row>
                   <Col>Tax :</Col>
-                  <Col>{cart.taxPrice}</Col>
+                  <Col>₹{cart.taxPrice}</Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
                 <Row>
                   <Col>Total :</Col>
-                  <Col>{cart.totalPrice.toFixed(2)}</Col>
+                  <Col>₹{cart.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroupItem>
               <ListGroupItem>
