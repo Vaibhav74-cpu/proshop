@@ -137,7 +137,7 @@ export const getUsers = asyncHandler(async (req, res) => {
 //      @routes  GET /api/users/:id
 //      @access  /private admin
 export const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select(-password);
+  const user = await User.findById(req.params.id).select("-password");
   if (user) {
     res.status(200).json(user);
   } else {
@@ -145,7 +145,6 @@ export const getUserById = asyncHandler(async (req, res) => {
     throw new Error("user not found");
   }
 });
-
 
 //      @desc    update user by id
 //      @routes PUT /api/users/:id
@@ -170,7 +169,6 @@ export const updateUser = asyncHandler(async (req, res) => {
     throw new Error("user not found");
   }
 });
-
 
 //      @desc    delete user by id
 //      @routes  DELETE /api/users/:id
