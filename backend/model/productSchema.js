@@ -71,6 +71,10 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    // imagePublicId: {
+    //   type: String,
+    //   required: false, // Make it optional for backward compatibility
+    // },
   },
   { timestamps: true },
 );

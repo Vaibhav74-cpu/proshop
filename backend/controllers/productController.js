@@ -1,6 +1,49 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../model/productSchema.js";
+import dotenv from "dotenv";
+import getDataUri from "../utils/dataUri.js";
+import cloudinary from "../service/cloudinary.js";
+dotenv.config();
 // import products from '../DummyData/product.js';
+
+// desc -> create new product
+// route-> /api/products/
+// access-> private/admin
+export const createNewProduct = asyncHandler(async (req, res) => {
+  const { name, price, brand, category, countInStock, description } = req.body;
+  const image = req.file;
+
+  if (!name || !price || !brand || !category || !countInStock) {
+    res.status(400);
+    throw new Error("Please provide all required fields");
+  }
+
+  if (!image) {
+    return res.status(400).json({
+      success: false,
+      message: "please upload the image",
+    });
+  }
+
+  const imageUri = getDataUri(image);
+  const cloudResponse = await cloudinary.uploader.upload(imageUri.content);
+
+  const product = new Product({
+    name: name || "sample name",
+    image: cloudResponse.secure_url || "https://sample-image.jpg" || image,
+    user: req.user._id,
+    description: description || "sample description",
+    brand: brand || "sample brand",
+    category: category || "sample category",
+    price: price || 0,
+    countInStock: countInStock || 0,
+    rating: 0,
+    numReviews: 0,
+  });
+
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
 
 // desc -> create new product
 // route-> /api/products/
@@ -8,7 +51,8 @@ import Product from "../model/productSchema.js";
 export const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "sample",
-    image: "image",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-AOkgbu9125P54CGiQ3s9Bx-HPCchP5Q3hQ&s",
     user: req.user._id,
     description: "sample description",
     brand: "sample brand",
@@ -26,7 +70,6 @@ export const createProduct = asyncHandler(async (req, res) => {
 // route-> /api/products/
 //access-> public
 export const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 2;
   const page = Number(req.query.pageNumber) || 1; //comes from url ->2
 
   const keyword = req.query.keyword
@@ -36,10 +79,10 @@ export const getProducts = asyncHandler(async (req, res) => {
   const count = await Product.countDocuments({ ...keyword }); // count documents via keyword comes from frontend
 
   const products = await Product.find({ ...keyword }) // find documents via keyword comes from frontend
-    .limit(pageSize)
-    .skip(pageSize * (page - 1)); //skip the products = 2*(2-1)=>2
+    .limit(process.env.PAGE_SIZE)
+    .skip(process.env.PAGE_SIZE * (page - 1)); //skip the products = 2*(2-1)=>2
 
-  res.json({ products, page, pages: Math.ceil(count) / pageSize });
+  res.json({ products, page, pages: Math.ceil(count) / process.env.PAGE_SIZE });
 });
 
 // desc -> fetch a product
@@ -59,9 +102,18 @@ export const getProductById = asyncHandler(async (req, res) => {
 // route-> /api/products/:id
 //access-> private/admin
 export const updateProduct = asyncHandler(async (req, res) => {
-  const { name, brand, category, description, price, countInStock, image } =
-    req.body;
+  const { name, brand, category, description, price, countInStock } = req.body;
+  const image = req.file;
+
   const product = await Product.findById(req.params.id);
+
+  const imageUri = getDataUri(image);
+  const cloudResponse = await cloudinary.uploader.upload(
+    imageUri.content,
+    // {
+    //   folder:"shop/products",
+    // }
+  );
 
   if (product) {
     product.name = name;
@@ -70,10 +122,9 @@ export const updateProduct = asyncHandler(async (req, res) => {
     product.description = description;
     product.price = price;
     product.countInStock = countInStock;
-    product.image = image;
-
+    product.image = cloudResponse.secure_url || image;
     const updatedProduct = await product.save();
-    res.status(201).json(updatedProduct);
+    res.status(201).json(updatedProduct); //send to the frontend
   } else {
     res.status(404);
     throw new Error("Product not found");

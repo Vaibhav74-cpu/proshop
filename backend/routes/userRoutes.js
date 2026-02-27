@@ -11,6 +11,7 @@ import {
   updateUserProfile,
 } from "../controllers/userController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
+import singleUpload from "../middleware/multer.js";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const router = express.Router();
 
 //public -> no authentication required
 router.post("/register", registerUser);
-router.post("/login", authUser);
+router.post("/login",singleUpload, authUser);
 
 //private routes -> user must be logged in
 router.post("/logout", protect, logoutUser);
