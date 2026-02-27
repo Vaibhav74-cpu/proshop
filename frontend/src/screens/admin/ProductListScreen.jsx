@@ -11,12 +11,18 @@ import Loader from "../../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
 import { toast } from "react-toastify"; // Import toast
 import { useParams } from "react-router-dom";
+import Paginate from "../../components/Paginate";
 
 function ProductList() {
-  const { id: productId } = useParams();
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { id: productId, keyword, pageNumber } = useParams();
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
+
   const [createProduct, { isLoading: loadingProduct }] =
     useCreateProductMutation();
+    
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation(productId);
 
@@ -49,8 +55,16 @@ function ProductList() {
         <h1 className="fw-bold">Products</h1>
       </Col>
       <Col className="text-end">
+        {/* create new product through form */}
+        <LinkContainer to="/admin/product/create" className="mx-2">
+          <Button className="btn-block bg-dark">
+            <FaEdit /> Create New product
+          </Button>
+        </LinkContainer>
+
+        {/* create sample product */}
         <Button className="btn-block bg-dark" onClick={createProductHandler}>
-          <FaEdit /> Create product
+          <FaEdit /> Create sample product
         </Button>
       </Col>
       {loadingProduct && <Loader />}
@@ -69,17 +83,23 @@ function ProductList() {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
+                <th>Qty Available</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
+                  <td>
+                    {product.countInStock > 0
+                      ? product.countInStock
+                      : "Out of Stock"}
+                  </td>
                   <td className="gap-3">
                     <LinkContainer
                       to={`/admin/product/${product._id}/edit`}
@@ -90,7 +110,8 @@ function ProductList() {
                       </Button>
                     </LinkContainer>
                     <Button
-                      className="btn-sm" variant="light"
+                      className="btn-sm"
+                      variant="light"
                       onClick={() => deleteProductHandler(product._id)}
                     >
                       <FaTrash />
@@ -100,6 +121,12 @@ function ProductList() {
               ))}
             </tbody>
           </Table>
+          <Paginate
+            page={data.page}
+            pages={data.pages}
+            isAdmin={true}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </Row>

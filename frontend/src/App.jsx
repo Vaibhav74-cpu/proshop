@@ -18,10 +18,11 @@ import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import AdminRoutes from "./components/AdminRoutes";
 import OrderListScreen from "./screens/admin/OrderListScreen";
-import ProductList from "./screens/admin/ProductList";
+import ProductList from "./screens/admin/ProductListScreen";
 import ProductEditScreen from "./screens/admin/ProductEditScreen";
 import UsersListScreen from "./screens/admin/UsersListScreen";
 import UserEditScreen from "./screens/admin/UserEditScreen";
+import AddProductForm from "./screens/admin/AddProductForm";
 
 const appRouter = createBrowserRouter([
   {
@@ -51,12 +52,14 @@ const appRouter = createBrowserRouter([
         children: [
           { path: "admin/orderslist", element: <OrderListScreen /> },
           { path: "admin/productlist", element: <ProductList /> },
+          { path: "admin/productlist/:pageNumber", element: <ProductList /> },
           { path: "admin/userslist", element: <UsersListScreen /> },
           {
             path: "admin/product/:id/edit",
             element: <ProductEditScreen />,
           },
           { path: "/admin/user/:id/edit", element: <UserEditScreen /> },
+          { path: "admin/product/create", element: <AddProductForm /> },
         ],
       },
     ],

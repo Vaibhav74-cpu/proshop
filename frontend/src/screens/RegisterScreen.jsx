@@ -59,6 +59,7 @@ function RegisterScreen() {
             placeholder="Enter Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </FormGroup>
         <FormGroup controlId="email" className="my-3 fw-medium w-75">
@@ -68,6 +69,7 @@ function RegisterScreen() {
             placeholder="Enter Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </FormGroup>
         <FormGroup controlId="password" className="my-3 fw-medium w-75">
@@ -77,6 +79,7 @@ function RegisterScreen() {
             placeholder="Enter Your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" className="my-3 fw-medium w-75">
@@ -86,6 +89,7 @@ function RegisterScreen() {
             placeholder="Enter Your Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            required
           />
         </FormGroup>
         <Button

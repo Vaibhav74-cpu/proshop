@@ -28,11 +28,12 @@ export const productApislice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation({
-      query: (data) => ({
-        url: `${PRODUCTS_URL}/${data.productId}`,
+      query: ({ productId, formData }) => ({
+        url: `${PRODUCTS_URL}/${productId}`,
         method: "PUT",
-        body: data,
+        body: formData,
       }),
+
       invalidatesTags: ["Products"],
     }),
     uploadImageProduct: builder.mutation({
@@ -61,6 +62,13 @@ export const productApislice = apiSlice.injectEndpoints({
         url: `${PRODUCTS_URL}/top`,
       }),
     }),
+    createNewProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/add`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 export const {
@@ -72,6 +80,7 @@ export const {
   useDeleteProductMutation,
   useCreateProductReviewMutation,
   useGetTopProductsQuery,
+  useCreateNewProductMutation,
 } = productApislice;
 
 // keepUnusedDataFor-> keep data for 5 seconds after page leave

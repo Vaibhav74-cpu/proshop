@@ -15,7 +15,7 @@ import {
   useUploadImageProductMutation,
 } from "../../redux/slices/productApiSlice";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { toast } from "react-toastify";
@@ -29,10 +29,13 @@ function ProductEditScreen() {
     error,
     refetch,
   } = useGetProductDetailsQuery(productId);
+  // console.log(product);
+
   const [updateProduct, { isLoading: loadingUpdate, error: errorProduct }] =
     useUpdateProductMutation();
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadImageProductMutation();
+
+  // const [uploadProductImage, { isLoading: loadingUpload }] =
+  //   useUploadImageProductMutation();
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -40,8 +43,8 @@ function ProductEditScreen() {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-
+  const [image, setImage] = useState(""); // old image for show the url response of cludinary
+  const [imageFile, setImageFile] = useState("");
   useEffect(() => {
     if (product) {
       setName(product.name);
@@ -56,41 +59,39 @@ function ProductEditScreen() {
 
   const updateHandler = async (e) => {
     e.preventDefault();
-    const updatedProduct = {
-      productId,
-      name,
-      price,
-      brand,
-      category,
-      countInStock,
-      image,
-      description,
-    };
-    const res = await updateProduct(updatedProduct).unwrap();
-    refetch();
-    // console.log(res);
-    if (res.error) {
-      toast.error(error?.data?.message || error?.message);
-    } else {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("category", category);
+    formData.append("brand", brand);
+    formData.append("countInStock", countInStock);
+    formData.append("description", description);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    // const updatedProduct = {
+    //   productId,
+    //   name,
+    //   price,
+    //   brand,
+    //   category,
+    //   countInStock,
+    //   description,
+    //   image:imageFile
+    // };
+    try {
+      const res = await updateProduct({ productId, formData }).unwrap();
+      refetch();
+      // setImage(res.image);
+      // console.log(res);
       toast.success("Product Updated");
       navigate("/admin/productList");
-    }
-  };
-
-  const uploadImageHandler = async (e) => {
-    const formData = new FormData();
-    console.log(e.target.files[0]);
-
-    formData.append("image", e.target.files[0]);
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      // toast.success(res.message);
-      toast.success("Image uploaded successfully!");
-      setImage(res.image);
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.data?.message || error?.message);
     }
   };
+
   return (
     <>
       <LinkContainer to="/admin/productlist">
@@ -127,15 +128,10 @@ function ProductEditScreen() {
               {/* Image upload */}
               <FormGroup controlId="image" className="my-2">
                 <FormLabel>Image</FormLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Enter Product Image Url"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                />
+                <FormControl type="text" name={image} />
                 <FormControl
                   type="file"
-                  onChange={uploadImageHandler}
+                  onChange={(e) => setImageFile(e.target.files[0])}
                   label="choose file"
                 />
               </FormGroup>
