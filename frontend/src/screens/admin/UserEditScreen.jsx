@@ -66,7 +66,9 @@ function UserEditScreen() {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error.error}</Message>
+          <Message variant="danger">
+            {error?.data?.message || error?.error}
+          </Message>
         ) : (
           <>
             <Form onSubmit={updateUserHandler} className="w-75">

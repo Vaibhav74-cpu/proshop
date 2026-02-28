@@ -70,20 +70,10 @@ function ProductEditScreen() {
       formData.append("image", imageFile);
     }
 
-    // const updatedProduct = {
-    //   productId,
-    //   name,
-    //   price,
-    //   brand,
-    //   category,
-    //   countInStock,
-    //   description,
-    //   image:imageFile
-    // };
     try {
       const res = await updateProduct({ productId, formData }).unwrap();
       refetch();
-      // setImage(res.image);
+      setImage(res.image);
       // console.log(res);
       toast.success("Product Updated");
       navigate("/admin/productList");
@@ -103,7 +93,9 @@ function ProductEditScreen() {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant="danger">
+            {error?.data?.message || error?.error}
+          </Message>
         ) : (
           <>
             <Form onSubmit={updateHandler} className="w-75">
@@ -128,7 +120,7 @@ function ProductEditScreen() {
               {/* Image upload */}
               <FormGroup controlId="image" className="my-2">
                 <FormLabel>Image</FormLabel>
-                <FormControl type="text" name={image} />
+                <FormControl type="text" name={image} value={image} />
                 <FormControl
                   type="file"
                   onChange={(e) => setImageFile(e.target.files[0])}

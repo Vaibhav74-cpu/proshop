@@ -126,7 +126,9 @@ function OrderScreen() {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <Row>
           <Col md={8}>

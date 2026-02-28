@@ -22,7 +22,7 @@ function ProductList() {
 
   const [createProduct, { isLoading: loadingProduct }] =
     useCreateProductMutation();
-    
+
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation(productId);
 
@@ -72,7 +72,9 @@ function ProductList() {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <>
           <Table responsive hover striped bordered className="text-center">

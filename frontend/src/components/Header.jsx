@@ -8,6 +8,7 @@ import { toast } from "react-toastify"; // Import toast
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/slices/authSlice";
 import SearchBox from "../screens/SearchBox";
+import { resetCart } from "../redux/slices/cartSlice";
 
 function Header() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function Header() {
     try {
       await logoutApi().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       navigate("/login");
       toast.success(res?.data?.message || "Success!");
       // localStorage.removeItem("userInfo");
@@ -58,44 +60,7 @@ function Header() {
                 </Nav.Link>
               </LinkContainer>
 
-              {
-                // userInfo && userInfo.isAdmin ? (
-                //   <NavDropdown title={userInfo.name} id="adminmenu">
-                //     <LinkContainer to="admin/orderslist">
-                //       <NavDropdown.Item>Products List </NavDropdown.Item>
-                //     </LinkContainer>
-                //     <LinkContainer to="admin/orderslist">
-                //       <NavDropdown.Item>Users List </NavDropdown.Item>
-                //     </LinkContainer>
-                //     <LinkContainer to="admin/orderslist">
-                //       <NavDropdown.Item>Orders List </NavDropdown.Item>
-                //     </LinkContainer>
-                //     <NavDropdown.Item onClick={logoutHandler}>
-                //       Logout
-                //     </NavDropdown.Item>
-                //   </NavDropdown>
-                // ) :
-
-                userInfo ? (
-                  <NavDropdown title={userInfo.name} id="username">
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Item onClick={logoutHandler}>
-                      Logout
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                ) : (
-                  <LinkContainer to="/login">
-                    <Nav.Link>
-                      <FaUser />
-                      Sign In
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-              }
-
-              {userInfo && userInfo.isAdmin && (
+              {userInfo && userInfo.isAdmin ? (
                 <NavDropdown title={userInfo.name} id="adminmenu">
                   <LinkContainer to="admin/productlist">
                     <NavDropdown.Item>Products List </NavDropdown.Item>
@@ -106,7 +71,26 @@ function Header() {
                   <LinkContainer to="admin/orderslist">
                     <NavDropdown.Item>Orders List </NavDropdown.Item>
                   </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
+              ) : userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <FaUser />
+                    Sign In
+                  </Nav.Link>
+                </LinkContainer>
               )}
             </Nav>
           </Navbar.Collapse>

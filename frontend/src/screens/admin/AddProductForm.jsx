@@ -69,7 +69,9 @@ function AddProductForm() {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error?.error}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error?.error}
+        </Message>
       ) : (
         <Form onSubmit={submitHandler} className="w-75">
           <FormGroup controlId="name" className="my-3 ">
@@ -96,7 +98,7 @@ function AddProductForm() {
           {/* Image upload */}
           <FormGroup controlId="image" className="my-2">
             <FormLabel>Image</FormLabel>
-    
+
             <FormControl
               type="file"
               // value={image}
