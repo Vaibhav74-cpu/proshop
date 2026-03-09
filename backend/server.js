@@ -1,4 +1,5 @@
 import path from "path";
+import passport from "passport";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -7,9 +8,11 @@ import connectDB from "./config/db.js";
 import productRoutes from "../backend/routes/productRoutes.js";
 import userRoutes from "../backend/routes/userRoutes.js";
 import orderRoutes from "../backend/routes/orderRoutes.js";
-import uploadRoutes from "../backend/routes/uploadRoutes..js";
+// import uploadRoutes from "../backend/routes/uploadRoutes..js";
+import authRoutes from "../backend/routes/authRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
+import configPassport from "../backend/config/passport.js";
 
 const app = express();
 
@@ -25,19 +28,23 @@ app.use(
   }),
 );
 
+app.use(passport.initialize());
+configPassport(passport);
+
 // app.get("/", (req, res) => {
 //   res.send("api running ...");
 // });
 
+
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID }),
 );
-
 
 app.use(notFound);
 app.use(errorHandler);

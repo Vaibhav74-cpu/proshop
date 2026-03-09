@@ -189,3 +189,15 @@ export const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
   res.status(200).json(products);
 });
+
+/*
+******************** deals with images files ********************
+frontned send multipart-data -> server.js ->routes-> middleware-> contollers -> send response back to ->frontend
+multipart-> comes to backend -> store in temporary memory(memory storage) ->provide file for controller -> 
+convert into uri-> send imageUri content in cloudinary databsee-> res comes back from cloudinary to bakcned -> 
+save url in db -> send res back to frontend  
+
+********** accept all type of file with specific size ***********************
+  set resource type - auto  --> accept all types of files
+  set size limit -> limits: { fileSize: 20 * 1024 * 1024 }
+*/

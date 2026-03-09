@@ -1,0 +1,12 @@
+import { GoogleAuth, OAuth2Client } from "google-auth-library";
+import dotenv from "dotenv";
+dotenv.config();
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+export const OAuth2Client = new GoogleAuth(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  "postMessage",
+);

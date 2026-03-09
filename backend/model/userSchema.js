@@ -5,22 +5,37 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     isAdmin: {
       type: Boolean,
       default: false,
       required: true,
+    },
+    //google login
+    googleId: {
+      type: String,
+    },
+    // avatar: {
+    //   type: String,
+    // },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true },

@@ -19,7 +19,7 @@ const router = express.Router();
 
 //public -> no authentication required
 router.post("/register", registerUser);
-router.post("/login",singleUpload, authUser);
+router.post("/login", singleUpload, authUser);
 
 //private routes -> user must be logged in
 router.post("/logout", protect, logoutUser);
@@ -35,5 +35,7 @@ router
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser)
   .delete(protect, admin, deleteUser);
+
+
 
 export default router;
