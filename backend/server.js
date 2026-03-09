@@ -12,7 +12,8 @@ import orderRoutes from "../backend/routes/orderRoutes.js";
 import authRoutes from "../backend/routes/authRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
-import configPassport from "../backend/config/passport.js";
+import configurePassport from "../backend/config/passport.js";
+import configureGithubPassport from "../backend/config/githubPassport.js";
 
 const app = express();
 
@@ -29,17 +30,18 @@ app.use(
 );
 
 app.use(passport.initialize());
-configPassport(passport);
+configurePassport(passport);
+configureGithubPassport(passport);
 
 // app.get("/", (req, res) => {
 //   res.send("api running ...");
 // });
 
-
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", authRoutes);
+
 // app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) =>

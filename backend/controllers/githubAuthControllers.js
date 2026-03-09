@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const handleGooglecallback = async (req, res) => {
+export const handleGithubCallback = async (req, res) => {
   try {
     const user = req.user;
     const token = jwt.sign(
@@ -22,15 +22,12 @@ export const handleGooglecallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-
-
-    res.redirect(`http://localhost:5173/auth-google-success?token=${token}`);
+    res.redirect(`http://localhost:5173/auth-github-success?token=${token}`);
   } catch (error) {
-    res.redirect(`http://localhost:5173/login?error=google_failed`);
+    res.redirect(`http://localhost:5173/login?error=github_failed`);
   }
 };
-
-export const userDataGoogle = (req, res) => {
+export const userDataGithub = async (req, res) => {
   try {
     res.json({
       success: true,

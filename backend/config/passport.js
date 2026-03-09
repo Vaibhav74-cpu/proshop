@@ -27,8 +27,8 @@ export default function configurePassport(passport) {
               name: profile.displayName,
               email: profile.emails[0].value,
               authProvider: "google",
-              // isVerified: true,
-              // isLoggedIn: true,
+              isVerified: true,
+              isLoggedIn: true,
             });
           }
           return cb(null, user);
