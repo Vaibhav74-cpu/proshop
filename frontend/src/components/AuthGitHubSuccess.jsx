@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setCredentials } from "../redux/slices/authSlice";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
+import Loader from "./Loader";
 
-function AuthGoogleSuccess() {
+function AuthGitHubSuccess() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -30,7 +30,7 @@ function AuthGoogleSuccess() {
           }),
         );
 
-        toast.success("Login successful through Google");
+        toast.success("Login successful through GitHub");
         navigate("/"); // Redirect to home page
       } catch (error) {
         toast.error("Authentication failed");
@@ -45,4 +45,4 @@ function AuthGoogleSuccess() {
   return <Loader />;
 }
 
-export default AuthGoogleSuccess;
+export default AuthGitHubSuccess;

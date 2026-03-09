@@ -12,12 +12,12 @@ function GoogleLogin() {
         variant="dark"
       >
         <img
-          style={{ height: "20px", width: "20px", marginRight: "3px" }}
+          style={{ height: "25px", width: "25px", marginRight: "3px" }}
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/500px-Google_%22G%22_logo.svg.png"
           alt="Google"
           variant="outline"
         />
-        Login with Google
+      
       </Button>
     </div>
   );

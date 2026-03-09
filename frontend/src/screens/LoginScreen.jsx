@@ -8,6 +8,7 @@ import { setCredentials } from "../redux/slices/authSlice";
 import { toast } from "react-toastify"; // Import toast
 import Loader from "../components/Loader";
 import GoogleLogin from "../components/GoogleLogin";
+import GitHubLogin from "../components/GitHubLogin";
 
 function LoginScreen() {
   const dispatch = useDispatch();
@@ -38,8 +39,6 @@ function LoginScreen() {
       toast.error(error?.data?.message || error.error);
     }
   };
-
-
 
   return (
     <FormContainer>
@@ -86,7 +85,10 @@ function LoginScreen() {
             </Link>
           </Col>
         </Row>
-        <GoogleLogin />
+        <div className="d-flex gap-2 mt-3">
+          <GoogleLogin />
+          <GitHubLogin />
+        </div>
       </Form>
     </FormContainer>
   );
