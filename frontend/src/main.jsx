@@ -8,13 +8,16 @@ import store from "./redux/store.js";
 import "react-toastify/dist/ReactToastify.css";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { HelmetProvider } from "react-helmet-async";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <HelmetProvider>
       <Provider store={store}>
         <PayPalScriptProvider deferLoading={true}>
-          <App />
+          <GoogleOAuthProvider clientId="1044928015495-9p5glksl4j3cjaf5l824239colaoa8es.apps.googleusercontent.com">
+            <App />
+          </GoogleOAuthProvider>
         </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>

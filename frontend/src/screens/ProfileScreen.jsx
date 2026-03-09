@@ -28,14 +28,14 @@ function ProfileScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [
     updateProfile,
-    { isLoading: loadingProfile, error: updateProfileError },
+    { isLoading: loadingProfile, isError: updateProfileError },
   ] = useProfileMutation();
   const {
     data: orders,
     isLoading: ordersLoading,
-    isError: ordersError,
+    error: ordersError,
   } = useGetMyOrdersQuery();
-  
+
   console.log(orders);
 
   useEffect(() => {
@@ -116,7 +116,9 @@ function ProfileScreen() {
         {ordersLoading ? (
           <Loader />
         ) : ordersError ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant="danger">
+            Failed to Load the orders
+          </Message>
         ) : (
           <Table striped hover responsive className="table-sm">
             <thead>
@@ -151,7 +153,10 @@ function ProfileScreen() {
                   </td>
 
                   <LinkContainer to={`/order/${order._id}`}>
-                    <Button className="btn-sm" variant="light"> Details</Button>
+                    <Button className="btn-sm" variant="light">
+                      {" "}
+                      Details
+                    </Button>
                   </LinkContainer>
                 </tr>
               ))}

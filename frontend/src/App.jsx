@@ -23,6 +23,18 @@ import ProductEditScreen from "./screens/admin/ProductEditScreen";
 import UsersListScreen from "./screens/admin/UsersListScreen";
 import UserEditScreen from "./screens/admin/UserEditScreen";
 import AddProductForm from "./screens/admin/AddProductForm";
+import AuthGoogleSuccess from "./components/authGoogleSuccess";
+// import GoogleLogin from "./components/GoogleLogin";
+
+// import { GoogleOAuthProvider } from "@react-oauth/google";
+
+// const GoogleAuthWrapper = () => {
+//   return (
+//     <GoogleOAuthProvider>
+//       <GoogleLogin></GoogleLogin>
+//     </GoogleOAuthProvider>
+//   );
+// };
 
 const appRouter = createBrowserRouter([
   {
@@ -35,7 +47,9 @@ const appRouter = createBrowserRouter([
       { path: "search/:keyword/page/:pageNumber", element: <HomeScreen /> },
       { path: "product/:id", element: <ProductScreen /> },
       { path: "login", element: <LoginScreen /> },
+      // { path: "googleLogin", element: <GoogleLogin /> },
       { path: "register", element: <RegisterScreen /> },
+      { path: "auth-success", element: <AuthGoogleSuccess /> },
       {
         element: <PrivateRoutes />,
         children: [

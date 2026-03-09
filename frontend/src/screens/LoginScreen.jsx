@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../redux/slices/authSlice";
 import { toast } from "react-toastify"; // Import toast
 import Loader from "../components/Loader";
+import GoogleLogin from "../components/GoogleLogin";
 
 function LoginScreen() {
   const dispatch = useDispatch();
@@ -38,6 +39,8 @@ function LoginScreen() {
     }
   };
 
+
+
   return (
     <FormContainer>
       <h1 className="mt-5 fw-bold">Sign In</h1>
@@ -50,7 +53,7 @@ function LoginScreen() {
             placeholder="Enter email"
             className=" w-75"
             onChange={(e) => setEmail(e.target.value)}
-            required
+            // required
           />
         </FormGroup>
         <FormGroup controlId="password" className="my-3">
@@ -61,7 +64,7 @@ function LoginScreen() {
             placeholder="Enter your Password"
             className="w-75 "
             onChange={(e) => setPassword(e.target.value)}
-            required
+            // required
           />
         </FormGroup>
         <Button
@@ -83,6 +86,7 @@ function LoginScreen() {
             </Link>
           </Col>
         </Row>
+        <GoogleLogin />
       </Form>
     </FormContainer>
   );
