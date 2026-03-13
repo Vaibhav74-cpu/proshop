@@ -1,3 +1,4 @@
+import { sendOtpEmail } from "../config/emailConfig.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../model/userSchema.js";
 import generateToken from "../utils/generateToken.js";
@@ -13,13 +14,20 @@ export const authUser = asyncHandler(async (req, res) => {
 
   // const isPasswordMatch = await user.matchPassword(password); //optiona
   if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.otp = otp;
+    user.otpExpire = Date.now() + 2 * 60 * 1000;
+
+    await user.save();
+    sendOtpEmail(user, otp);
 
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      message: "otp sent on your email",
     });
   } else {
     res.status(401);
@@ -186,6 +194,57 @@ export const deleteUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("user not found");
   }
+});
+
+//      @desc    verify email with otp
+//      @routes  post /api/users/verify
+//      @access  /private user
+export const verifyEmailOtp = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+  // console.log(email);
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  if (!user.otp) {
+    res.status(400);
+    throw new Error("otp did not send on mail");
+  }
+
+  if (user.otp !== otp) {
+    res.status(400);
+    throw new Error("Invalid OTP");
+  }
+
+  if (user.otpExpire < Date.now()) {
+    res.status(400);
+    throw new Error("OTP expired");
+  }
+
+  user.isVerified = true;
+  user.isLoggedIn = true;
+  user.otp = undefined;
+  user.otpExpire = undefined;
+  await user.save();
+
+  generateToken(res, user._id);
+
+  res.status(200).json({
+    success: true,
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    isVerified: user.isVerified,
+    isAdmin: user.isAdmin,
+
+    message: "Email verified successfully",
+  });
 });
 
 //public ->no token or cookie needed

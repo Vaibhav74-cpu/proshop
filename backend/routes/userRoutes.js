@@ -9,6 +9,7 @@ import {
   registerUser,
   updateUser,
   updateUserProfile,
+  verifyEmailOtp,
 } from "../controllers/userController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
 import singleUpload from "../middleware/multer.js";
@@ -37,5 +38,6 @@ router
   .delete(protect, admin, deleteUser);
 
 
+  router.route('/verify-email').post(verifyEmailOtp)
 
 export default router;
