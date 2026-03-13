@@ -28,6 +28,7 @@ function ProductScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
   const { id: productId } = useParams();
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -46,6 +47,10 @@ function ProductScreen() {
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
+  };
+  const buyProductHandler = (e) => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate("/login?redirect=/shipping");
   };
 
   const submitReviewHandler = async (e) => {
@@ -80,7 +85,18 @@ function ProductScreen() {
           <Meta title={product.name} />
           <Row>
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                src={product.image}
+                alt={product.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  maxWidth: "350px",
+                  
+                }}
+                fluid
+              />
             </Col>
             <Col md={4}>
               <ListGroup variant="flush">
@@ -146,16 +162,31 @@ function ProductScreen() {
                     </ListGroupItem>
                   )}
 
-                  <ListGroupItem>
+                  <ListGroupItem className="d-flex justify-content-between">
                     <Button
                       type="button"
-                      className="btn btn-dark"
+                      className="btn btn-dark "
+                      style={{ width: "120px" }}
                       disabled={product.countInStock === 0}
                       onClick={addToCartHandler}
                     >
                       Add to Cart
                     </Button>
+                    <Button
+                      type="button"
+                      variant="dark"
+                      className="btn-block"
+                      style={{ width: "120px" }}
+                      // disabled={cartItems.length === 0}
+                      onClick={buyProductHandler}
+                    >
+                      Buy
+                    </Button>
                   </ListGroupItem>
+
+                  {/* <ListGroupItem>
+                    
+                  </ListGroupItem> */}
                 </ListGroup>
               </Card>
             </Col>

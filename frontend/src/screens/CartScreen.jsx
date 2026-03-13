@@ -35,6 +35,15 @@ function CartScreen() {
 
   return (
     <Row>
+      <div>
+        <Link
+          className="btn  btn-light my-3"
+          to="/"
+          style={{ textAlign: "left" }}
+        >
+          Go Back
+        </Link>
+      </div>
       <Col md={8}>
         <h2 style={{ marginBottom: "20px " }}>Shooping Cart</h2>
         {cartItems.length === 0 ? (

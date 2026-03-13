@@ -4,7 +4,7 @@ import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../redux/slices/usersApiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "../redux/slices/authSlice";
+import { setCredentials, setOtpEmail } from "../redux/slices/authSlice";
 import { toast } from "react-toastify"; // Import toast
 import Loader from "../components/Loader";
 import GoogleLogin from "../components/GoogleLogin";
@@ -14,6 +14,9 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+
+  // console.log(userInfo);
+
   const [login, { isLoading }] = useLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,8 +36,9 @@ function LoginScreen() {
     try {
       const res = await login({ email, password }).unwrap();
 
-      dispatch(setCredentials({ ...res }));
-      navigate(redirect);
+      // dispatch(setCredentials({ ...res }));
+      dispatch(setOtpEmail(res.email));
+      navigate("/verify-email");
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }

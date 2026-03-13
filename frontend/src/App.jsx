@@ -25,6 +25,7 @@ import UserEditScreen from "./screens/admin/UserEditScreen";
 import AddProductForm from "./screens/admin/AddProductForm";
 import AuthGoogleSuccess from "./components/authGoogleSuccess";
 import AuthGitHubSuccess from "./components/AuthGitHubSuccess";
+import VerifyOtpScreen from "./screens/VerifyOtpScreen";
 // import GoogleLogin from "./components/GoogleLogin";
 
 // import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -52,6 +53,7 @@ const appRouter = createBrowserRouter([
       { path: "register", element: <RegisterScreen /> },
       { path: "auth-google-success", element: <AuthGoogleSuccess /> },
       { path: "auth-github-success", element: <AuthGitHubSuccess/> },
+      {path:"verify-email", element:<VerifyOtpScreen/>},
       {
         element: <PrivateRoutes />,
         children: [
