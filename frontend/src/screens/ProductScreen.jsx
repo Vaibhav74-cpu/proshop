@@ -45,12 +45,20 @@ function ProductScreen() {
     useCreateProductReviewMutation();
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, qty }));
-    navigate("/cart");
+    if (userInfo) {
+      dispatch(addToCart({ ...product, qty }));
+      navigate("/cart");
+    } else {
+      navigate("/login");
+    }
   };
   const buyProductHandler = (e) => {
-    dispatch(addToCart({ ...product, qty }));
-    navigate("/login?redirect=/shipping");
+    if (userInfo) {
+      dispatch(addToCart({ ...product, qty }));
+      navigate("/login?redirect=/shipping");
+    } else {
+      navigate("/login");
+    }
   };
 
   const submitReviewHandler = async (e) => {
@@ -93,7 +101,6 @@ function ProductScreen() {
                   height: "100%",
                   objectFit: "contain",
                   maxWidth: "350px",
-                  
                 }}
                 fluid
               />

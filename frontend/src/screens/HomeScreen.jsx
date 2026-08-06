@@ -17,13 +17,6 @@ function HomeScreen() {
 
   return (
     <>
-      {!keyword ? (
-        <ProductCarousel />
-      ) : (
-        <Link className="btn btn-light my-3" to="/">
-          Go Back
-        </Link>
-      )}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -32,6 +25,13 @@ function HomeScreen() {
         </Message>
       ) : (
         <>
+          {!keyword ? (
+            <ProductCarousel />
+          ) : (
+            <Link className="btn btn-light my-3" to="/">
+              Go Back
+            </Link>
+          )}
           <Meta title="Welcome To Online Shop" />
           <h1 className="fs-3 fw-bold mt-3">Latest Products </h1>
           <Row>

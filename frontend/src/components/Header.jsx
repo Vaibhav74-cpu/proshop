@@ -41,7 +41,7 @@ function Header() {
               alt="proShop"
               style={{ height: "25px", width: "25px" , gap:"5px"}}
             /> */}
-              ProShop
+              EliteBazaar
             </Navbar.Brand>
           </LinkContainer>
 
