@@ -14,7 +14,7 @@ export default function configureGithubPassport(passport) {
       },
       async (accessToken, refreshToken, profile, cb) => {
         try {
-          // console.log(profile);
+         
           const email =
             profile.emails && profile.emails.length > 0
               ? profile.emails[0].value
