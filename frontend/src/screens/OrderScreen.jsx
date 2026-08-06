@@ -46,7 +46,7 @@ function OrderScreen() {
     error: errorPayPal,
   } = useGetPayPalClientIdQuery();
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  // console.log(order);
+  
 
   useEffect(() => {
     if (!errorPayPal && !loadingPaypal && paypal?.clientId) {

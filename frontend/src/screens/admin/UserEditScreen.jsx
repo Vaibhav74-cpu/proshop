@@ -31,9 +31,9 @@ function UserEditScreen() {
     error,
     refetch,
   } = useGetUserDetailsQuery(userId);
-  //   console.log(user);
+
   const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
-  //   console.log(updateUser);
+ 
 
   useEffect(() => {
     if (user) {

@@ -15,7 +15,6 @@ function LoginScreen() {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
 
-  // console.log(userInfo);
 
   const [login, { isLoading }] = useLoginMutation();
   const [email, setEmail] = useState("");

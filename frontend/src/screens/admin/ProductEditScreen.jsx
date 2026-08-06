@@ -29,7 +29,7 @@ function ProductEditScreen() {
     error,
     refetch,
   } = useGetProductDetailsQuery(productId);
-  // console.log(product);
+  
 
   const [updateProduct, { isLoading: loadingUpdate, error: errorProduct }] =
     useUpdateProductMutation();
@@ -74,7 +74,7 @@ function ProductEditScreen() {
       const res = await updateProduct({ productId, formData }).unwrap();
       refetch();
       setImage(res.image);
-      // console.log(res);
+   
       toast.success("Product Updated");
       navigate("/admin/productList");
     } catch (error) {

@@ -39,7 +39,7 @@ function ProductScreen() {
     error,
     refetch,
   } = useGetProductDetailsQuery(productId);
-  // console.log(product);
+
 
   const [productReview, { isLoading: loadingReview }] =
     useCreateProductReviewMutation();

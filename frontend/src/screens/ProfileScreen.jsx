@@ -36,7 +36,7 @@ function ProfileScreen() {
     error: ordersError,
   } = useGetMyOrdersQuery();
 
-  console.log(orders);
+
 
   useEffect(() => {
     if (userInfo) {

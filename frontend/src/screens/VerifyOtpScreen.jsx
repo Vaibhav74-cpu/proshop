@@ -13,7 +13,7 @@ function VerifyOtpScreen() {
   const navigate = useNavigate();
   const [otp, setotp] = useState("");
   const { otpEmail } = useSelector((state) => state.auth);
-  // console.log(otpEmail);
+ 
 
   const submitHandler = async (e) => {
     e.preventDefault();

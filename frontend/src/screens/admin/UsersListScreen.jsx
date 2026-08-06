@@ -17,7 +17,7 @@ function UsersListScreen() {
     useDeleteUserMutation(userId);
   const { data: users, isLoading, error, refetch } = useGetUsersQuery();
   useDeleteUserMutation();
-  //   console.log(users);
+
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure want to delete User")) {
       try {
